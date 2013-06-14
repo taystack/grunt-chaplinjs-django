@@ -130,7 +130,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
-    'tastypie',
+    # 'tastypie',
 
     PROJECT_NAME,
     component.format('course'),

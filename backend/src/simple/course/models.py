@@ -9,7 +9,7 @@ from django.template.defaultfilters import slugify
 from simple.models import Clock
 
 
-class Course(Clock):
+class Course(models.Model):
     user = models.ForeignKey(User)
     name = models.CharField(max_length=200)
     address = models.CharField(max_length=200, null=True, blank=True)
@@ -24,7 +24,7 @@ class Course(Clock):
 
         return super(Course, self).save(*args, **kwargs)
 
-class Hole(Clock):
+class Hole(models.Model):
     course = models.ForeignKey(Course)
     hole_number = models.IntegerField()
     description = models.CharField(max_length=1024, null=True, blank=True)

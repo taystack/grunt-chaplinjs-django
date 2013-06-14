@@ -10,24 +10,24 @@ import collections
 import os
 from django.contrib.auth.models import AnonymousUser
 
-class SessionAuthentication(authentication.Authentication):
+# class SessionAuthentication(authentication.Authentication):
 
-    allow_anonymous = True
+#     allow_anonymous = False
 
-    # TODO: Fix the possible information leak.  If a foreign site performs
-    # a GET request on our resource with the user's session key, then they
-    # can extract information from ardent.  See here for more info:
-    # http://haacked.com/archive/2008/11/20/anatomy-of-a-subtle-json-vulnerability.aspx
-    def authenticate(self, request):
-        """Django session handling takes care of setting the user model here.
-        """
-        user = request.user
-        # Authenticated users just return the users,
-        # anyone else don't let them in.
-        if user.is_authenticated():
-            return user
-        else:
-            raise exceptions.Forbidden()
+#     # TODO: Fix the possible information leak.  If a foreign site performs
+#     # a GET request on our resource with the user's session key, then they
+#     # can extract information from ardent.  See here for more info:
+#     # http://haacked.com/archive/2008/11/20/anatomy-of-a-subtle-json-vulnerability.aspx
+#     def authenticate(self, request):
+#         """Django session handling takes care of setting the user model here.
+#         """
+#         user = request.user
+#         # Authenticated users just return the users,
+#         # anyone else don't let them in.
+#         if user.is_authenticated():
+#             return user
+#         else:
+#             raise exceptions.Forbidden()
 
 class ModelAuthorization(authorization.ModelAuthorization):
 
@@ -41,7 +41,7 @@ class Resource(resources.Resource):
     # Only allow session auth and basic auth for now.
     authentication = (
         authentication.Basic(challenge=False),
-        SessionAuthentication(),
+        # SessionAuthentication(),
     )
 
 
@@ -52,7 +52,7 @@ class ModelResource(resources.Model):
     # Only allow session auth and basic auth for now.
     authentication = (
         authentication.Basic(challenge=False),
-        SessionAuthentication(),
+        # SessionAuthentication(),
     )
 
-    authorization = ModelAuthorization()
+    # authorization = ModelAuthorization()
