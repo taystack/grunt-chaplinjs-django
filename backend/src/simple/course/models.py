@@ -1,30 +1,36 @@
-from tastypie.utils.timezone import now
+# from tastypie.utils.timezone import now
+from __future__ import (division, print_function, unicode_literals,
+                        absolute_import)
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models import signals, Q
+from django.dispatch import receiver
 from django.template.defaultfilters import slugify
+from simple.models import Clock
 
 
-class Course(models.Model):
+class Course(Clock):
     user = models.ForeignKey(User)
-    play_date = models.DateTimeField(default=now, null=True)
     name = models.CharField(max_length=200)
-    slug = models.SlugField()
     address = models.CharField(max_length=200, null=True, blank=True)
+
+    class Meta:
+        ordering = ['name']
 
     def __unicode__(self):
         return self.name
 
     def save(self, *args, **kwargs):
-        # For automatic slug generation.
-        if not self.slug:
-            self.slug = slugify(self.name)[:50]
 
         return super(Course, self).save(*args, **kwargs)
 
-class Hole(models.Model):
+class Hole(Clock):
     course = models.ForeignKey(Course)
     hole_number = models.IntegerField()
     description = models.CharField(max_length=1024, null=True, blank=True)
+
+    class Meta:
+        ordering = ['hole_number']
 
     def __unicode__(self):
         return "{},{}".format(self.course, self.hole_number)

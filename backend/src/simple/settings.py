@@ -4,6 +4,9 @@ import os
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
+# Name of the project.
+PROJECT_NAME = 'simple'
+
 SITE_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), '..')
 PROJECT_DIR = os.path.join(SITE_DIR, '..')
 
@@ -16,12 +19,8 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': os.path.join(PROJECT_DIR, 'db.sqlite3'),                      # Or path to database file if using sqlite3.
+        'NAME': os.path.join(SITE_DIR, 'db.sqlite3'),                      # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        'PORT': '',                      # Set to empty string for default.
     }
 }
 
@@ -117,6 +116,9 @@ TEMPLATE_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
 )
 
+# Component pattern
+component = '{}.{{}}'.format(PROJECT_NAME)
+
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -129,7 +131,9 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     'tastypie',
-    'course',
+
+    PROJECT_NAME,
+    component.format('course'),
 )
 
 # A sample logging configuration. The only tangible logging
